@@ -5,7 +5,4 @@ namespace ariel{
 
     }
 
-    // YoungNinja::~YoungNinja(){
-        
-    // }
 }

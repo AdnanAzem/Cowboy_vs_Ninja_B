@@ -17,9 +17,8 @@ namespace ariel{
             double get_y() const{return this->coordinate_y;}
 
             double distance(const Point&) const; // return the distance between 2 points
-            void print(); // print the point example: (2,2)
-            string toString() const;
-            // Point moveToward(const Point&, const Point&, double); // return the closest point 
+            string print(); // print the point example: (2,2)
+            // string toString() const;
             static Point moveTowards(const Point&, const Point&, double); // return the closest point 
 
     };

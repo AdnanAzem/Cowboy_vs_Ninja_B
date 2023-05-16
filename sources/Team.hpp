@@ -19,29 +19,29 @@ namespace ariel{
             vector<Character*> members;
             Character* captin;
             bool newTeam;
-            int teamSize;
-            int teamSizeMax;
 
         public:
+            // Constructors
             Team();
             Team(Character*);
 
-            //Setters
+            // Setters
             void setTeam(vector<Character*> newTeam){this->members = newTeam;}
             void setLeader(Character* newLeader){this->captin = newLeader;}
 
-            //getters
+            // Getters
             vector<Character*> getTeam(){return this->members;}
             Character* getLeader(){return this->captin;}
 
             void add(Character*); // add character to the team
             virtual void attack(Team*); // attack other team -- check if the leader is alive else pick another leader(by smallest distance)
-            int stillAlive(); // return the number of the members that still alive in the team
-            void print(); // print the details of the members in the team
+            int stillAlive() const; // return the number of the members that still alive in the team
+            virtual void print() const; // print the details of the members in the team
+            vector<Character*> sortTeam(vector<Character*>) const; // sort the members first cowboys then ninjas
+            void changeLeader(); // change the leader when dead
+            Character* closest(Team *); // find the closest enemy from the leader
+
             ~Team(); // free the memory
-            vector<Character*> sortTeam(vector<Character*> list);
-            void changeLeader();
-            void changeLeader(Team*);
 
     };
 

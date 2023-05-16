@@ -8,70 +8,31 @@ namespace ariel
     {
     }
 
-    void Team2::attack(Team *enemyTeam)
-    {
-        if (enemyTeam == nullptr)
-        {
+    void Team2::attack(Team *enemyTeam){
+        
+        if (enemyTeam == nullptr){ // check if we receive a null
             throw std::invalid_argument("Enemy Team is Null");
         }
-        if(!stillAlive()){
+        if(!stillAlive()){ // check if the team is not alive
             throw std::runtime_error("The Team is Dead");
         }
-        if(!enemyTeam->stillAlive()){
+        if(!enemyTeam->stillAlive()){ // check if the enemy team is not alive
             throw std::runtime_error("Enemy Team is Dead");
         }
-        if (!getLeader()->isAlive())
-        {
+        if (!getLeader()->isAlive()){ // check if the leader is not alive
             changeLeader();
-            // double minDistance = std::numeric_limits<double>::max();
-            // Character *closestFighter = nullptr;
-            // for (Character *fighter : getTeam())
-            // {
-            //     if (fighter->isAlive())
-            //     {
-            //         double distance = fighter->distance(getLeader());
-            //         if (distance < minDistance)
-            //         {
-            //             minDistance = distance;
-            //             closestFighter = fighter;
-            //         }
-            //     }
-            // }
-            // setLeader(closestFighter);
         }
         Character *victim = nullptr;
-        double minDistance = std::numeric_limits<double>::max();
-        for (Character *enemyFighter : enemyTeam->getTeam())
-        {
-            if (enemyFighter->isAlive())
-            {
-                double distance = getLeader()->distance(enemyFighter);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    victim = enemyFighter;
-                }
-            }
-        }
+        victim = closest(enemyTeam); // find the close enemy to the leader
         // if (victim && getLeader()->isAlive()) {
-        for (Character *attacker : this->getTeam())
-        {
-            if (attacker->isAlive() && victim->isAlive())
-            {
+        for (Character *attacker : this->getTeam()){
+            if (attacker->isAlive() && victim->isAlive()){ // when the attacker & victim is alive -> the attacker attack the victim
+                if(!enemyTeam->stillAlive()){ // if there is no teammate alive break
+                    return;
+                }
+                victim = closest(enemyTeam);
                 attacker->attack(victim);
             }
-            // }
-            // victim = nullptr;
-            // minDistance = std::numeric_limits<double>::max();
-            // for (Character* enemyFighter : enemyTeam->getTeam()) {
-            //     if (enemyFighter->isAlive()) {
-            //         double distance = getLeader()->distance(enemyFighter);
-            //         if (distance < minDistance) {
-            //             minDistance = distance;
-            //             victim = enemyFighter;
-            //         }
-            //     }
-            // }
         }
     }
 }

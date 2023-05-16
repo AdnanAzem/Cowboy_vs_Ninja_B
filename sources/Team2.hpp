@@ -7,6 +7,6 @@ namespace ariel{
 
         public:
         Team2(Character*);
-        virtual void attack(Team*);
+        void attack(Team*);
     };
 }

@@ -2,51 +2,37 @@
 #include <typeinfo>
 namespace ariel{
 
+    // =================================== Constructors ===================================
     Team::Team(){
-        
-        
+         
     }
 
     Team::Team(Character* leader):captin(leader){
         this->add(captin);
         captin->setIsMember(true);
     }
+    // =================================== End Constructors ===================================
 
-    void Team::add(Character* newMember){
-        if(newMember == nullptr){
-            throw runtime_error("Null Character!!!");
-        }
-        if (newMember->getIsMember()) {
-            throw runtime_error("Already in Team!!!");
-        }
-        if (this->members.size() >= 10) {
-            throw runtime_error("Team is Full!!!");
-        } 
-        else {
-            this->members.push_back(newMember);
-            newMember->setIsMember(true);
-            sortTeam(this->members);
-        }
-    }
 
-    vector<Character *> Team::sortTeam(vector<Character *> list) {
-        vector<Character *> newList;
+    // =================================== Helper Functions ===================================
+    vector<Character *> Team::sortTeam(vector<Character *> listOfMembers) const{ // sort the team -> first cowboys then ninjas
+        vector<Character *> newListOfMembers;
         //first cowboys:
-        for (Character* c : list) {
-            if (Cowboy* cowboy = dynamic_cast<Cowboy*>(c)) {
-                newList.push_back(cowboy);
+        for (Character* member : listOfMembers) {
+            if (Cowboy* cowboy = dynamic_cast<Cowboy*>(member)) {
+                newListOfMembers.push_back(cowboy);
             }
         }
         //second ninjas:
-        for (Character* c : list) {
-            if (Ninja* ninja = dynamic_cast<Ninja*>(c)) {
-                newList.push_back(ninja);
+        for (Character* member : listOfMembers) {
+            if (Ninja* ninja = dynamic_cast<Ninja*>(member)) {
+                newListOfMembers.push_back(ninja);
             }
         }
-        return newList;
+        return newListOfMembers;
     }
 
-    void Team::changeLeader(){
+    void Team::changeLeader(){ // change the leader
         double minDistance = std::numeric_limits<double>::max();
         Character* closestFighter = nullptr;
         for (Character* fighter : members) {
@@ -61,19 +47,39 @@ namespace ariel{
         captin = closestFighter;
     }
 
-    void Team::changeLeader(Team* list){
+    Character* Team::closest(Team *team) { // return the closest enemy character from the leader
+        Character* closestTeammate = nullptr;
         double minDistance = std::numeric_limits<double>::max();
-        Character* closestFighter = nullptr;
-        for (Character* fighter : list->members) {
-            if (fighter->isAlive()) {
-                double distance = fighter->distance(list->captin);
+        for (Character* teammate : team->members) {
+            if (teammate->isAlive()) {
+                double distance = captin->distance(teammate);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    closestFighter = fighter;
+                    closestTeammate = teammate;
                 }
             }
         }
-        list->captin = closestFighter;
+        return closestTeammate;
+    }
+    // =================================== End Helper Functions ===================================
+
+
+    // =================================== Team Functions ===================================
+    void Team::add(Character* newMember){ // add member to the team
+        if(newMember == nullptr){ // throw error if the input is null
+            throw runtime_error("Null Character!!!");
+        }
+        if (newMember->getIsMember()) { // throw error if the input is already in team
+            throw runtime_error("Already in Team!!!");
+        }
+        if (this->members.size() >= 10) { // throw error if size of team bigger or equal 10
+            throw runtime_error("Team is Full!!!");
+        } 
+        else { // add member to the team and sort the team -> first cowboys the ninjas
+            this->members.push_back(newMember);
+            newMember->setIsMember(true);
+            // sortTeam(this->members);
+        }
     }
 
     void Team::attack(Team* enemyTeam){
@@ -89,72 +95,57 @@ namespace ariel{
         if (!captin->isAlive()) { // check if the leader is not alive
                 this->changeLeader();
         }
-        if(!enemyTeam->captin->isAlive()){ // check if the enemy leader is not alive
-            enemyTeam->changeLeader();
-        }
-        
+        // if(!enemyTeam->captin->isAlive()){ // check if the enemy leader is not alive
+        //     enemyTeam->changeLeader();
+        // }
+        sortTeam(this->members);
         Character* victim = nullptr;
-        double minDistance = std::numeric_limits<double>::max();
-        for (Character* enemyFighter : enemyTeam->members) {
-            if (enemyFighter->isAlive()) {
-                double distance = captin->distance(enemyFighter);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    victim = enemyFighter;
-                }
-            }
-        }
-        // sorted the team cowboy first then ninja
-        // vector<Character *> sortedTeam = sortTeam(this->members);
+        victim = closest(enemyTeam); // find the close enemy to the leader
         if (victim && captin->isAlive()) {
             for (Character* attacker : members) {
-                if (attacker->isAlive() && victim->isAlive()) {
+                if (attacker->isAlive() && victim->isAlive()) { // when the attacker & victim is alive -> the attacker attack the victim
                     attacker->attack(victim);  
                 }
-                else if(attacker->isAlive() && !victim->isAlive()){
-                    if(!enemyTeam->stillAlive()){
+                else if(attacker->isAlive() && !victim->isAlive()){ // when the attacker is alive & victim is not alive -> select another victim that close to the leader
+                    if(!enemyTeam->stillAlive()){ // if there is no teammate alive break
                         return;
                     }
-                    victim = nullptr;
-                    minDistance = std::numeric_limits<double>::max();
-                    for (Character* enemyFighter : enemyTeam->members) {
-                        if (enemyFighter->isAlive()) {
-                            double distance = captin->distance(enemyFighter);
-                            if (distance < minDistance) {
-                                minDistance = distance;
-                                victim = enemyFighter;
-                            }
-                        }
-                    }
+                    victim = closest(enemyTeam);
                     attacker->attack(victim);
                 }
             }
-
         }
-
-
     }
 
-
-    int Team::stillAlive(){
+    int Team::stillAlive() const{ // return the number of the members that is alive
         int aliveCount = 0;
         for (Character* member : members) {
-            if (member->isAlive()) {
+            if (member->isAlive()) { // if member is alive we increase aliveCount by 1
                 aliveCount++;
             }
         }
         return aliveCount;
     }
 
-    void Team::print(){
-        for (Character* member : members) {
-            member->print();
+    void Team::print() const{ // print the details of all the members in the team
+        sortTeam(this->members);
+        string leaderName = this->captin->getName();
+        cout << "Team " << leaderName << " has " << to_string(this->stillAlive()) << " members alive and " << to_string(((int)members.size()-stillAlive()))<<" members died are:\n" << endl;
+        for (Character* member : this->members) {
+            cout << "\t" << member->print() << endl;
         }
+        cout << "End of Team members" << endl << endl;
     }
 
+    // =================================== End Team Functions ===================================
+
+
+    // =================================== Desctructor ===================================
     Team::~Team(){
         for (auto& member : members) {
             delete member;
         }
     }
+
+    // =================================== End Desctructor ===================================
 }

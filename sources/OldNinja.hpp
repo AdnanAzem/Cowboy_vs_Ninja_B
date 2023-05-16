@@ -9,8 +9,5 @@ namespace ariel{
         public:
             OldNinja(string,const Point&);
             
-            // ~OldNinja();
-            // virtual string print() const;
-
     };
 }

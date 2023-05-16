@@ -6,7 +6,4 @@ namespace ariel{
 
     }
 
-    // OldNinja::~OldNinja(){
-        
-    // }
 }

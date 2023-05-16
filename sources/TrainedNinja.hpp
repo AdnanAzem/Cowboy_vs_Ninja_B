@@ -8,8 +8,6 @@ namespace ariel{
 
         public:
             TrainedNinja(string, const Point&);
-            // ~TrainedNinja();
-            // virtual string print() const;
 
     };
 }

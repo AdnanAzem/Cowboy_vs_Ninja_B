@@ -11,14 +11,13 @@ namespace ariel{
 
         public:
             Cowboy(string , const Point&);
-            Cowboy(string , const Point&, int);
+            // Cowboy(string , const Point&, int);
             void shoot(Character*); // reduce 10 health from other character
             bool hasboolets(); // return if the cowboy have boolets in the weapon
             void reload(); // reload balls to the weapon 
-            int getAmountOfBalls(); // return amount_of_balls
-            virtual string print() const;
-            virtual void attack(Character* enemy){this->shoot(enemy);}
-            ~Cowboy();
+            int getAmountOfBalls(){return this->bullets;} // return amount_of_balls
+            string print() const; // print the stats
+            void attack(Character* ); // attack the enemy
     };
 
 }
