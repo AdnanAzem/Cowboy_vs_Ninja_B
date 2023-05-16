@@ -10,37 +10,6 @@ namespace ariel{
     Team::Team(Character* leader):captin(leader){
         this->add(captin);
         captin->setIsMember(true);
-        // if(!leader->getIsMember()){
-        //     // add(captin);
-        //     this->members.push_back(captin);
-        //     captin->setIsMember(true);
-        // }
-        // else{
-        //     throw std::runtime_error("Member to another Team");
-        // }
-        
-        // if(captin == leader){
-        //     throw std::runtime_error("Same Captin");
-        // }
-        // else if(!leader->getIsMember()){
-        //     captin = leader;
-        //     captin->setIsMember(true);
-        //     add(captin);
-        // }
-
-        // if(leader != NULL){
-        //     this->captin = leader;
-        //     this->members.push_back(captin);
-        // }
-        // if(this->captin == leader){
-        //     throw std::runtime_error("Can't create team to leader of other team");
-        // }
-        // else{
-        //     // this->captin = leader;
-        //     // this->captin->setCaptin(true);
-        //     // this->members.push_back(leader);
-        // }
-
     }
 
     void Team::add(Character* newMember){
@@ -58,20 +27,6 @@ namespace ariel{
             newMember->setIsMember(true);
             sortTeam(this->members);
         }
-
-        // if(newMember->getIsMember()){
-        //     throw std::runtime_error("Already in Team!!!");
-        // }
-        // else{
-        //     if(members.size() < 10  && stillAlive()){
-        //         this->members.push_back(newMember);
-        //         newMember->setIsMember(true);
-        //     }   
-        //     else{
-        //         throw std::runtime_error("Team is Full!!!");
-        //     }
-        // }
-
     }
 
     vector<Character *> Team::sortTeam(vector<Character *> list) {
@@ -154,20 +109,27 @@ namespace ariel{
         if (victim && captin->isAlive()) {
             for (Character* attacker : members) {
                 if (attacker->isAlive() && victim->isAlive()) {
-                        attacker->attack(victim);  
+                    attacker->attack(victim);  
+                }
+                else if(attacker->isAlive() && !victim->isAlive()){
+                    if(!enemyTeam->stillAlive()){
+                        return;
+                    }
+                    victim = nullptr;
+                    minDistance = std::numeric_limits<double>::max();
+                    for (Character* enemyFighter : enemyTeam->members) {
+                        if (enemyFighter->isAlive()) {
+                            double distance = captin->distance(enemyFighter);
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                victim = enemyFighter;
+                            }
+                        }
+                    }
+                    attacker->attack(victim);
                 }
             }
-            // victim = nullptr;
-            // minDistance = std::numeric_limits<double>::max();
-            // for (Character* enemyFighter : enemyTeam->members) {
-            //     if (enemyFighter->isAlive()) {
-            //         double distance = captin->distance(enemyFighter);
-            //         if (distance < minDistance) {
-            //             minDistance = distance;
-            //             victim = enemyFighter;
-            //         }
-            //     }
-            // }
+
         }
 
 
