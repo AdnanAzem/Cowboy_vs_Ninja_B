@@ -12,7 +12,8 @@ namespace ariel
     public:
         // Ninja(string, const Point&);
         // Ninja(string, const Point&, int);
-        Ninja(string , const Point& , int , int );
+        // Ninja(string , const Point& , int , int );
+        Ninja(string name, const Point& location, int hp, int speed):Character(name,location,hp),speed(speed){}
 
         void setSpeed(int _sp){speed = _sp;}
         int getSpeed() const{return speed;} // return the speed

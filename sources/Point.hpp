@@ -9,8 +9,10 @@ namespace ariel{
             double coordinate_y;
 
         public:
-            Point();
-            Point(double, double);
+            // Point();
+            // Point(double, double);
+            Point(): coordinate_x(0), coordinate_y(0){}
+            Point(double x, double y): coordinate_x(x), coordinate_y(y){}
 
             // Getters
             double get_x() const{return this->coordinate_x;}

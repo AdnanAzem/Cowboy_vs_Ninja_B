@@ -4,9 +4,9 @@ namespace ariel
 {
 
     // =================================== Constructor ===================================
-    Ninja::Ninja(string name, const Point& location, int hp, int speed):Character(name,location,hp),speed(speed){
+    // Ninja::Ninja(string name, const Point& location, int hp, int speed):Character(name,location,hp),speed(speed){
 
-    }
+    // }
     // =================================== End Constructor ===================================
 
     // =================================== Ninja Functions ===================================

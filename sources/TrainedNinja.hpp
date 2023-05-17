@@ -7,7 +7,8 @@ namespace ariel{
             // health = 120, speed = 12
 
         public:
-            TrainedNinja(string, const Point&);
+            // TrainedNinja(string, const Point&);
+            TrainedNinja(string name, const Point& location):Ninja(name, location, 120, 12){}
 
     };
 }

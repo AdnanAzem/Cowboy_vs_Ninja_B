@@ -7,9 +7,9 @@ namespace ariel{
 
     // }
 
-    Character::Character(string name, const Point& location, int hp): name(name), location(location), health(hp),isMember(false){
+    // Character::Character(string name, const Point& location, int hp): name(name), location(location), health(hp),isMember(false){
 
-    }
+    // }
     // =================================== End Constructors ===================================
 
     // =================================== Character Functions ===================================

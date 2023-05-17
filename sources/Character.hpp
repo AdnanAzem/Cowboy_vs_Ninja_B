@@ -11,7 +11,8 @@ namespace ariel{
             bool isMember;
 
         public:
-            Character(string, const Point&, int);
+            // Character(string, const Point&, int);
+            Character(string name, const Point& location, int hp): name(name), location(location), health(hp),isMember(false){}
 
             // we must need to have this constructors to pass make tidy
             Character() = delete; 

@@ -7,9 +7,9 @@ namespace ariel{
 
     // =================================== Constructor ===================================
 
-    Cowboy::Cowboy(string name, const Point& location):Character(name,location,110), bullets(6){
+    // Cowboy::Cowboy(string name, const Point& location):Character(name,location,110), bullets(6){
 
-    }
+    // }
     // =================================== End Constructor ===================================
 
 

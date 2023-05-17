@@ -3,13 +3,13 @@
 namespace ariel{
 
     // =================================== Constructors ===================================
-    Point::Point(): coordinate_x(0), coordinate_y(0){
+    // Point::Point(): coordinate_x(0), coordinate_y(0){
 
-    }
+    // }
 
-    Point::Point(double x, double y): coordinate_x(x), coordinate_y(y){
+    // Point::Point(double x, double y): coordinate_x(x), coordinate_y(y){
 
-    }
+    // }
     // =================================== End Constructors ===================================
 
     // =================================== Point Functions ===================================

@@ -10,7 +10,8 @@ namespace ariel{
             int bullets;
 
         public:
-            Cowboy(string , const Point&);
+            Cowboy(string name, const Point& location):Character(name,location,110), bullets(6){}
+            // Cowboy(string , const Point&);
             // Cowboy(string , const Point&, int);
             void shoot(Character*); // reduce 10 health from other character
             bool hasboolets(); // return if the cowboy have boolets in the weapon

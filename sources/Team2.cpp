@@ -4,9 +4,9 @@
 
 namespace ariel
 {
-    Team2::Team2(Character *leader) : Team(leader)
-    {
-    }
+    // Team2::Team2(Character *leader) : Team(leader)
+    // {
+    // }
 
     void Team2::add(Character* newMember){ // add member to the team
         if(newMember == nullptr){ // throw error if the input is null
