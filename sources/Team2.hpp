@@ -7,6 +7,8 @@ namespace ariel{
 
         public:
         Team2(Character*);
-        void attack(Team*);
+        void attack(Team* enemyTeam) override; // override attack function
+        void add(Character* newMember) override; // override add function
+        // ~Team();
     };
 }

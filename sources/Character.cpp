@@ -3,9 +3,9 @@
 namespace ariel{
 
     // =================================== Constructors ===================================
-    Character::Character(){
+    // Character::Character(){
 
-    }
+    // }
 
     Character::Character(string name, const Point& location, int hp): name(name), location(location), health(hp),isMember(false){
 

@@ -3,9 +3,9 @@
 namespace ariel{
 
     // =================================== Constructors ===================================
-    Team::Team(){
+    // Team::Team(){
          
-    }
+    // }
 
     Team::Team(Character* leader):captin(leader){
         this->add(captin);
@@ -78,7 +78,7 @@ namespace ariel{
         else { // add member to the team and sort the team -> first cowboys the ninjas
             this->members.push_back(newMember);
             newMember->setIsMember(true);
-            // sortTeam(this->members);
+            sortTeam(this->members);
         }
     }
 
@@ -98,7 +98,7 @@ namespace ariel{
         // if(!enemyTeam->captin->isAlive()){ // check if the enemy leader is not alive
         //     enemyTeam->changeLeader();
         // }
-        sortTeam(this->members);
+        // sortTeam(this->members);
         Character* victim = nullptr;
         victim = closest(enemyTeam); // find the close enemy to the leader
         if (victim && captin->isAlive()) {
@@ -128,7 +128,7 @@ namespace ariel{
     }
 
     void Team::print() const{ // print the details of all the members in the team
-        sortTeam(this->members);
+        // sortTeam(this->members);
         string leaderName = this->captin->getName();
         cout << "Team " << leaderName << " has " << to_string(this->stillAlive()) << " members alive and " << to_string(((int)members.size()-stillAlive()))<<" members died are:\n" << endl;
         for (Character* member : this->members) {

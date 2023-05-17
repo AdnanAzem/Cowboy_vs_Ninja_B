@@ -7,13 +7,11 @@ namespace ariel{
 
         public:
         SmartTeam(Character*);
-        void attack(Team*);
+        void attack(Team* enemyTeam) override; // override attack function
+        void add(Character* newMember) override; // override add function
 
         // The chooseVictim() function selects the victim for the attacker based on their proximity
         Character* chooseVictim(Character* , Team* );
         
-        // The calculatePotentialDamage() function determines the potential damage that can be inflicted by an attacker 
-        // based on their type (Cowboy or Ninja) and the distance to enemy fighters.
-        double calculatePotentialDamage(Character* , Team* );
     };
 }

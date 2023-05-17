@@ -4,49 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 namespace ariel{
     SmartTeam::SmartTeam(Character* leader):Team(leader){
 
     }
 
-    double SmartTeam::calculatePotentialDamage(Character* attacker, Team* enemyTeam) {
-        double potentialDamage = 0.0;
-
-        Cowboy* cowboy = dynamic_cast<Cowboy*>(attacker);
-        if (cowboy) {
-            if (cowboy->hasboolets()) {
-                // Calculate potential damage for Cowboys with bullets
-                for (Character* enemyFighter : enemyTeam->getTeam()) {
-                    if (enemyFighter->isAlive()) {
-                        //double distance = attacker->distance(enemyFighter);
-                        //if (distance <= cowboy->getEffectiveRange()) {
-                            potentialDamage += 10; //cowboy->getDamage();
-                        //}
-                    }
-                }
-            } 
-            else {
-                // Calculate potential damage for Cowboys without bullets
-                // potentialDamage += cowboy->getReloadSpeed();
-                cowboy->reload();
-            }
-        } else {
-            Ninja* ninja = dynamic_cast<Ninja*>(attacker);
-            if (ninja) {
-                // Calculate potential damage for Ninjas
-                for (Character* enemyFighter : enemyTeam->getTeam()) {
-                    if (enemyFighter->isAlive()) {
-                        double distance = attacker->distance(enemyFighter);
-                        if (distance <= 1) {
-                            potentialDamage += 40; // ninja->getDamage();
-                        }
-                    }
-                }
-            }
-        }
-        return potentialDamage;
-    }
 
     Character* SmartTeam::chooseVictim(Character* attacker, Team* enemyTeam) {
         Character* victim = nullptr;
@@ -64,74 +28,90 @@ namespace ariel{
         return victim;
     }
 
-    void SmartTeam::attack(Team* enemyTeam) {
-        if (!getLeader()->isAlive()) {
-            // Choose a new leader from the living characters closest to the dead leader
-            changeLeader();
-            // double minDistance = std::numeric_limits<double>::max();
-            // for (Character* fighter : getTeam()) {
-            //     if (fighter->isAlive()) {
-            //         double distance = getLeader()->distance(fighter);
-            //         if (distance < minDistance) {
-            //             setLeader(fighter);
-            //             minDistance = distance;
-            //         }
-            //     }
-            // }
+    void SmartTeam::add(Character* newMember){ // add member to the team
+        if(newMember == nullptr){ // throw error if the input is null
+            throw runtime_error("Null Character!!!");
         }
+        if (newMember->getIsMember()) { // throw error if the input is already in team
+            throw runtime_error("Already in Team!!!");
+        }
+        if (this->getTeam().size() >= 10) { // throw error if size of team bigger or equal 10
+            throw runtime_error("Team is Full!!!");
+        } 
+        else { // add member to the team 
+            vector <Character*> newTeamMembers = getTeam(); // get the members of the team
+            newTeamMembers.push_back(newMember); // add the new member to the team
+            setTeam(newTeamMembers); // set the new team
+            newMember->setIsMember(true); 
+        }
+    }
 
-        while (!getTeam().empty() && !enemyTeam->getTeam().empty()) {
-            // Choose the character with the maximum potential damage based on the situation
-            Character* attacker = nullptr;
-            double maxPotentialDamage = 0.0;
+    void SmartTeam::attack(Team* enemyTeam) {
+        if(enemyTeam == nullptr){ // check if we receive a null
+            throw std::invalid_argument("Enemy Team is Null");
+        }
+        if(!stillAlive()){ // check if the team is not alive
+            throw std::runtime_error("The Team is Dead");
+        }
+        if(!enemyTeam->stillAlive()){ // check if the enemy team is not alive
+            throw std::runtime_error("Enemy Team is Dead");
+        }
+        if (!getLeader()->isAlive()) { // check if the leader is not alive
+                this->changeLeader();
+        }
+        // Determine the enemy leader
+        Character* enemyLeader = enemyTeam->getLeader();
 
-            for (Character* fighter : getTeam()) {
-                if (fighter->isAlive()) {
-                    double potentialDamage = calculatePotentialDamage(fighter, enemyTeam);
-                    if (potentialDamage > maxPotentialDamage) {
-                        attacker = fighter;
-                        maxPotentialDamage = potentialDamage;
-                    }
-                }
+        // Sort the fighters in both teams based on their proximity to the enemy leader
+        std::sort(getTeam().begin(), getTeam().end(), [&](Character* a, Character* b) {
+            return a->distance(enemyLeader) < b->distance(enemyLeader);
+        });
+
+        std::sort(enemyTeam->getTeam().begin(), enemyTeam->getTeam().end(), [&](Character* a, Character* b) {
+            return a->distance(enemyLeader) < b->distance(enemyLeader);
+        });
+
+        // Attack the enemy team
+        for (Character* attacker : getTeam()) {
+            if (!attacker->isAlive()) {
+                continue; // Skip to the next fighter if attacker is dead
             }
 
-            if (attacker) {
-                Cowboy* cowboy = dynamic_cast<Cowboy*>(attacker);
-                if (cowboy && cowboy->hasboolets()) {
-                    Character* victim = chooseVictim(attacker, enemyTeam);
-                    if (victim) {
-                        cowboy->shoot(victim);
-                        if (!victim->isAlive()) {
-                            // Remove the dead victim from the enemy team
-                            auto it = std::find(enemyTeam->getTeam().begin(), enemyTeam->getTeam().end(), victim);
-                            if (it != enemyTeam->getTeam().end()) {
-                                enemyTeam->getTeam().erase(it);
-                            }
-                        }
+            if (Cowboy* cowboy = dynamic_cast<Cowboy*>(attacker)) {
+                // Check if cowboy has bullets
+                if (cowboy->hasboolets()) {
+                    Character* closestEnemy = nullptr;
+
+                    // Find the closest alive enemy fighter to the cowboy
+                    closestEnemy = chooseVictim(cowboy,enemyTeam);
+
+                    // Shoot the closest enemy fighter
+                    if (closestEnemy ) {
+                        cowboy->shoot(closestEnemy);
                     }
-                } else if (cowboy) {
+                } 
+                else {
                     cowboy->reload();
-                } else {
-                    Ninja* ninja = dynamic_cast<Ninja*>(attacker);
-                    if (ninja) {
-                        Character* victim = chooseVictim(attacker, enemyTeam);
-                        if (victim) {
-                            ninja->move(victim);
-                            if (ninja->distance(victim) <= 1) {
-                                ninja->slash(victim);
-                                if (!victim->isAlive()) {
-                                    // Remove the dead victim from the enemy team
-                                    auto it = std::find(enemyTeam->getTeam().begin(), enemyTeam->getTeam().end(), victim);
-                                    if (it != enemyTeam->getTeam().end()) {
-                                        enemyTeam->getTeam().erase(it);
-                                    }
-                                }
-                            }
-                        }
+                }
+            } 
+            else if (Ninja* ninja = dynamic_cast<Ninja*>(attacker)) {
+                // Check if ninja is within attack range of enemy leader
+                if (ninja->distance(enemyLeader) < 1) {
+                    ninja->slash(enemyLeader);
+                } 
+                else {
+                    // Attack the closest enemy fighters within range
+                    Character* closestEnemy = nullptr;
+                    closestEnemy = chooseVictim(ninja, enemyTeam);
+                    double distance = ninja->distance(closestEnemy);
+                    if(distance < 1){
+                        ninja->attack(closestEnemy);
+                    }
+                    else{
+                        // Move towards the enemy leader
+                        ninja->move(enemyLeader); 
                     }
                 }
-            } else {
-                break;  // No living characters to attack
             }
         }
     }

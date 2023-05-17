@@ -8,6 +8,24 @@ namespace ariel
     {
     }
 
+    void Team2::add(Character* newMember){ // add member to the team
+        if(newMember == nullptr){ // throw error if the input is null
+            throw runtime_error("Null Character!!!");
+        }
+        if (newMember->getIsMember()) { // throw error if the input is already in team
+            throw runtime_error("Already in Team!!!");
+        }
+        if (this->getTeam().size() >= 10) { // throw error if size of team bigger or equal 10
+            throw runtime_error("Team is Full!!!");
+        } 
+        else { // add member to the team 
+            vector <Character*> newTeamMembers = getTeam(); // get the members of the team
+            newTeamMembers.push_back(newMember); // add the new member to the team
+            setTeam(newTeamMembers); // set the new team
+            newMember->setIsMember(true); 
+        }
+    }
+
     void Team2::attack(Team *enemyTeam){
         
         if (enemyTeam == nullptr){ // check if we receive a null

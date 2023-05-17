@@ -11,9 +11,14 @@ namespace ariel{
             bool isMember;
 
         public:
-            Character();
-            // Character(string , const Point&);
             Character(string, const Point&, int);
+
+            // we must need to have this constructors to pass make tidy
+            Character() = delete; 
+            Character(const Character &) = delete;
+            Character& operator =(Character const&) = delete;
+            Character(Character&&) = delete;
+            Character& operator=(Character&&) = delete;
 
             // Setters
             void setHealth(int _hp){health = _hp;}
@@ -24,7 +29,7 @@ namespace ariel{
             string getName()const{return name;} // return the name of the character
             int getHealth()const{return health;} // return the health of the character
             Point getLocation() const{return location;} // return the location of the character
-            bool getIsMember() {return isMember;} // return if the character is already in team
+            bool getIsMember() const{return isMember;} // return if the character is already in team
 
             bool isAlive() const; // return if the character is alive -- health > 0
             double distance (const Character*) const; // return the distance between 2 characters

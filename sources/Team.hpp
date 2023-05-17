@@ -22,18 +22,25 @@ namespace ariel{
 
         public:
             // Constructors
-            Team();
             Team(Character*);
+            
+            // we must need to have this constructors to pass make tidy
+            Team() = delete; // Added this little fella
+            Team(const Team &) = delete;
+            Team& operator =(Team const&) = delete;
+            Team(Team&&) = delete;
+            Team& operator=(Team&&) = delete;
+
 
             // Setters
-            void setTeam(vector<Character*> newTeam){this->members = newTeam;}
+            void setTeam(vector<Character*> newTeam){this->members = std::move(newTeam);}
             void setLeader(Character* newLeader){this->captin = newLeader;}
 
             // Getters
-            vector<Character*> getTeam(){return this->members;}
+            vector<Character*> getTeam() {return this->members;}
             Character* getLeader(){return this->captin;}
 
-            void add(Character*); // add character to the team
+            virtual void add(Character*); // add character to the team
             virtual void attack(Team*); // attack other team -- check if the leader is alive else pick another leader(by smallest distance)
             int stillAlive() const; // return the number of the members that still alive in the team
             virtual void print() const; // print the details of the members in the team
@@ -41,7 +48,7 @@ namespace ariel{
             void changeLeader(); // change the leader when dead
             Character* closest(Team *); // find the closest enemy from the leader
 
-            ~Team(); // free the memory
+            virtual ~Team(); // free the memory
 
     };
 
