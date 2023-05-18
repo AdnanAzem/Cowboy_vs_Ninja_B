@@ -29,17 +29,6 @@ namespace ariel{
         if(this->health < 0) this->health = 0;
     }
 
-    // string Character::print() const{
-    //     return name + " (" + to_string(health) + " HP) at " + location.toString();
-
-    //     // if(this->isAlive()){
-    //     //     return "Name: " + this->getName() + ", Health: " + to_string(this->getHealth()) + ", Location: " + this->getLocation().toString();
-    //     // }
-    //     // else{
-    //     //     return "{" + this->getName() + "}";
-    //     // }
-        
-    // }
     // =================================== End Character Functions ===================================
 
 
