@@ -1,0 +1,181 @@
+--- 0 seconds
+
+
+### Cleaning old files ###
+rm -f objects/Character.o objects/Cowboy.o objects/Ninja.o objects/Point.o objects/SmartTeam.o objects/Team2.o objects/Team.o *.o test* demo*
+
+
+### Check 1: our demo program should compile with your class
+! timeout 20 make -j8 -f Makefile demo
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile Demo.cpp -o Demo.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Character.cpp -o objects/Character.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Cowboy.cpp -o objects/Cowboy.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Ninja.cpp -o objects/Ninja.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Point.cpp -o objects/Point.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/SmartTeam.cpp -o objects/SmartTeam.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Team2.cpp -o objects/Team2.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Team.cpp -o objects/Team.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources Demo.o objects/Character.o objects/Cowboy.o objects/Ninja.o objects/Point.o objects/SmartTeam.o objects/Team2.o objects/Team.o -o demo
+--- 3 seconds
+### Score 1: 100
+
+
+### Check 2: our demo program should run without errors
+! timeout 20 ./demo
+=C= Tom has (110 HP, 5 bullets) at (32.300000, 44.000000)
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (110 HP, 4 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (51.288569, 62.866814)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (11.025023, 16.205272)
+
+        =N= Hikari has (110 HP) at (17.772107, 70.479411)
+
+End of Team members
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (110 HP, 3 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (37.636288, 65.967658)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (15.887534, 22.557908)
+
+        =N= Hikari has (100 HP) at (23.544213, 59.958823)
+
+End of Team members
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (110 HP, 2 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (24.758146, 60.476442)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (20.750046, 28.910544)
+
+        =N= Hikari has (90 HP) at (29.316320, 49.438234)
+
+End of Team members
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (110 HP, 1 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (29.316320, 49.438234)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (25.612557, 35.263179)
+
+        =N= Hikari has (80 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (70 HP, 0 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (30.475069, 41.615815)
+
+        =N= Hikari has (70 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team Tom has 2 members alive and 0 members died are:
+
+        =C= Tom has (30 HP, 6 bullets) at (32.300000, 44.000000)
+
+        =N= Yogi has (100 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (140 HP) at (32.300000, 44.000000)
+
+        =N= Hikari has (30 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team Tom has 1 members alive and 1 members died are:
+
+        =C= {Tom} died at (32.300000, 44.000000)
+
+        =N= Yogi has (60 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (90 HP) at (32.300000, 44.000000)
+
+        =N= Hikari has (30 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+Team Yogi has 0 members alive and 2 members died are:
+
+        =C= {Tom} died at (32.300000, 44.000000)
+
+        =N= {Yogi} died at (32.300000, 44.000000)
+
+End of Team members
+
+Team sushi has 2 members alive and 0 members died are:
+
+        =N= sushi has (50 HP) at (32.300000, 44.000000)
+
+        =N= Hikari has (30 HP) at (32.300000, 44.000000)
+
+End of Team members
+
+winner is team_B
+--- 3 seconds
+### Score 2: 100
+
+
+### Check 3: your test should compile 
+! timeout 20 make -j8 -f Makefile test
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile TestRunner.cpp -o TestRunner.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile StudentTest1.cpp -o StudentTest1.o
+clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources TestRunner.o StudentTest1.o objects/Character.o objects/Cowboy.o objects/Ninja.o objects/Point.o objects/SmartTeam.o objects/Team2.o objects/Team.o -o test
+--- 5 seconds
+### Score 3: 100
+
+
+### Check 4: you should write some new tests
+! timeout 20 ./test
+[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+[doctest] assertions: 160 | 160 passed | 0 failed |
+[doctest] Status: SUCCESS!
+--- 5 seconds
+### Score 4: 100
+
+
+Grade: 100
