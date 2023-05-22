@@ -162,7 +162,7 @@ winner is team_B
 clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile TestRunner.cpp -o TestRunner.o
 clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources --compile StudentTest1.cpp -o StudentTest1.o
 clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources TestRunner.o StudentTest1.o objects/Character.o objects/Cowboy.o objects/Ninja.o objects/Point.o objects/SmartTeam.o objects/Team2.o objects/Team.o -o test
---- 5 seconds
+--- 6 seconds
 ### Score 3: 100
 
 
@@ -172,9 +172,9 @@ clang++-14 -std=c++2a -Werror -Wsign-conversion -Isources TestRunner.o StudentTe
 [doctest] run with "--help" for options
 ===============================================================================
 [doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
-[doctest] assertions: 160 | 160 passed | 0 failed |
+[doctest] assertions: 161 | 161 passed | 0 failed |
 [doctest] Status: SUCCESS!
---- 5 seconds
+--- 6 seconds
 ### Score 4: 100
 
 
